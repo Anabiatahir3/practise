@@ -1,13 +1,15 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import { ProjectContext } from "../store/project.context";
 
-export default function NewTask({ addTask }) {
+export default function NewTask() {
+  const { handleAddTask } = useContext(ProjectContext);
   const [enteredTask, setEnteredTask] = useState(""); //we can use ref but using state so that we can clear the input field acc to reacts rules
 
-  function handleAddTask() {
+  function handleAddSingleTask() {
     if (enteredTask.trim() === "") {
       return;
     }
-    addTask(enteredTask);
+    handleAddTask(enteredTask);
     setEnteredTask("");
   }
   return (
@@ -19,7 +21,7 @@ export default function NewTask({ addTask }) {
         className="w-64 px-2 py-1 rounded-sm bg-stone-200"
       />
       <button
-        onClick={handleAddTask}
+        onClick={handleAddSingleTask}
         className="text-stone-700 hover:text-stone-950"
       >
         Add Task

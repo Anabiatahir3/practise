@@ -1,8 +1,14 @@
 import React from "react";
 import notask from "../assets/notask.jpg";
 import Button from "./Button";
+import { useContext } from "react";
+import { ProjectContext } from "../store/project.context";
 
-const NoProjectSelected = ({ onStartAddProject }) => {
+const NoProjectSelected = () => {
+  const { handleAddProjectClick, selectedProjectId } =
+    useContext(ProjectContext);
+  console.log("id", selectedProjectId);
+
   return (
     <div className="w-2/3 mt-24 text-center">
       <img
@@ -17,7 +23,7 @@ const NoProjectSelected = ({ onStartAddProject }) => {
         Select a project or get started with a new one.
       </p>
       <p className="mt-8">
-        <Button onClick={onStartAddProject}>Create new project</Button>
+        <Button onClick={handleAddProjectClick}>Create new project</Button>
       </p>
     </div>
   );

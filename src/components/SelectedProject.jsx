@@ -1,13 +1,15 @@
 import Tasks from "./Tasks";
-export default function SelectedProject({ project, onDelete, ...props }) {
+import { ProjectContext } from "../store/project.context";
+import { useContext } from "react";
+export default function SelectedProject({ project }) {
   const formattedDate = new Date(project.dueDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
   });
-  const tasksForProject = props.tasks.filter(
-    (task) => task.projectId === project.id
-  );
+
+  const { handleDeleteProject, tasks } = useContext(ProjectContext);
+  const tasksForProject = tasks.filter((task) => task.projectId === project.id);
   return (
     <div className="w-[35rem] mt-16">
       <header className="pb-4 mb-4 border-b-2 border-stone-300">
@@ -16,7 +18,7 @@ export default function SelectedProject({ project, onDelete, ...props }) {
             {project.title}
           </h1>
           <button
-            onClick={onDelete}
+            onClick={handleDeleteProject}
             className="text-stone-600 hover:text-stone-950"
           >
             Delete
@@ -27,11 +29,7 @@ export default function SelectedProject({ project, onDelete, ...props }) {
           {project.description}
         </p>
       </header>
-      <Tasks
-        addTask={props.addTask}
-        deleteTask={props.deleteTask}
-        tasks={tasksForProject}
-      />
+      <Tasks tasks={tasksForProject} />
     </div>
   );
 }

@@ -1,10 +1,13 @@
 import NewTask from "./NewTask";
+import { ProjectContext } from "../store/project.context";
+import { useContext } from "react";
 
-export default function Tasks({ addTask, deleteTask, tasks }) {
+export default function Tasks({ tasks }) {
+  const { handleDeleteTask } = useContext(ProjectContext);
   return (
     <section>
       <h2 className="text-2xl font-bold text-stone-700 mb-4">Tasks</h2>
-      <NewTask addTask={addTask} />
+      <NewTask />
       {tasks.length === 0 && (
         <p className="text-stone-800 my-4">
           This project doesnt have any tasks yet
@@ -17,7 +20,7 @@ export default function Tasks({ addTask, deleteTask, tasks }) {
             <li key={task.taskId} className="flex justify-between my-4">
               <span>{task.text}</span>
               <button
-                onClick={() => deleteTask(task.taskId)}
+                onClick={() => handleDeleteTask(task.taskId)}
                 className="text-stone-700 hover:text-red-500"
               >
                 Clear
