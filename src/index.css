@@ -25,7 +25,12 @@ body {
   display: flex;
   align-items: center;
 }
-
+#main-title .light {
+  background-color: none;
+}
+#main-title .dark {
+  background-color: blue;
+}
 #main-title img {
   width: 5rem;
   margin-right: 1.5rem;
@@ -85,7 +90,6 @@ h1 {
 
 .product img {
   width: 100%;
-  height: 30%;
   border-radius: 6px;
 }
 
