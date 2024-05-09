@@ -22,7 +22,6 @@ export default function QuestionTimer({ timeout, onTimeout }) {
   return (
     <>
       <progress id="question-time" max={timeout} value={remainingTime} />;
-      <p>{remainingTime}</p>
     </>
   );
 }

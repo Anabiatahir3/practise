@@ -1,11 +1,10 @@
 import { useCallback, useState } from "react";
 import QUESTIONS from "../questions";
 import Completed from "../assets/quiz-complete.png";
-import QuestionTimer from "./QuestionTimer";
+import Question from "./Question";
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
   const quizIsComplete = userAnswers.length === QUESTIONS.length;
-
   const activeQuestionIndex = userAnswers.length;
 
   const handleSubmit = useCallback(function handleSubmit(selectedAnswer) {
@@ -27,26 +26,15 @@ export default function Quiz() {
       </>
     );
   }
-  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
-  shuffledAnswers.sort(() => Math.random() - 0.5);
   return (
     <>
-      <div id="question">
-        <QuestionTimer
-          timeout={10000}
-          onTimeout={handleSkipAnswer}
-          key={activeQuestionIndex} // this key attribute helps in mounting and unmounting of the entire component
+      <div id="quiz">
+        <Question
+          onSelectAnswer={handleSubmit}
+          onSkip={handleSkipAnswer}
+          key={activeQuestionIndex}
+          index={activeQuestionIndex}
         />
-        <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-        <ul id="answers">
-          {shuffledAnswers.map((answer) => {
-            return (
-              <li key={answer} className="answer">
-                <button onClick={() => handleSubmit(answer)}>{answer}</button>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </>
   );
