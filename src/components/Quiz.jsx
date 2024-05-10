@@ -28,7 +28,7 @@ export default function Quiz() {
     <>
       <div id="quiz">
         <Question
-          onSelectAnswer={handleSubmit}
+          onSelectAnswer={handleSubmit} //we are using the useCllabck to wrap this function as it has a dependancy in the question timer component for it effect.
           onSkip={handleSkipAnswer}
           key={activeQuestionIndex}
           index={activeQuestionIndex}
