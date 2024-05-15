@@ -18,9 +18,15 @@ export default function Checkout() {
   function handleCloseCheckout() {
     hideCheckout();
   }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const fd = new FormData(event.target);
+    const customerData = Object.fromEntries();
+  }
   return (
     <Modal open={progress === "checkout"} onClose={handleCloseCheckout}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h2>Checkout</h2>
         <p>Total Amount:{currencyFormatter.format(totalPrice)}</p>
         <Input label="Full Name" type="text" id="full-name" />
