@@ -94,6 +94,9 @@ export const sendCartData = (cart) => {
   };
 };
 
+//down below we can see how it is a function that after executing performs action on our state. if the http request is successful
+// an action is dipatched that updates the redux state and if it is not successful anothe dispatch is run.
+
 export const getCartData = () => {
   return async (dispatch) => {
     const fetchData = async () => {
