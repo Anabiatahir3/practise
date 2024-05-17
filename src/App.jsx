@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Fragment } from "react";
 import Notification from "./components/UI/Notification";
-import { sendCartData } from "./store/cart-slice";
+import { getCartData, sendCartData } from "./store/cart-slice";
 
 let isInitial = true;
 function App() {
@@ -15,12 +15,16 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getCartData());
+  }, [dispatch]);
+  useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
-
-    dispatch(sendCartData(cart));
+    if (cart.changed) {
+      dispatch(sendCartData(cart)); //advantage of redux toolkit it also accepts action creators that return functions.
+    }
   }, [cart, dispatch]);
   return (
     <Fragment>
