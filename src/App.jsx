@@ -1,25 +1,40 @@
-import Player from "./components/Player";
-import { useState } from "react";
-import TimerChallenge from "./components/TimerChallenge";
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./pages/Home";
+import NewEventPage from "./pages/NewEvent";
+import EventDetailPage from "./pages/EventDetail";
+import EventsPage from "./pages/Events";
+import EditEventPage from "./pages/EditEvent";
+import RootLayout from "./pages/Root";
 function App() {
-  
-  return (
-
-    <>
-      <Player  />
-      <div id="challenges">
-        <TimerChallenge title={"Easy"} targetTime={1}/>
-        <TimerChallenge title={"Medium"} targetTime={2}/>
-        <TimerChallenge title={"Expert"} targetTime={3}/>
-        <TimerChallenge title={"Pro"} targetTime={4}/>
-
-
-
-      </div>
-    
-    </>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootLayout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+        {
+          path: "events",
+          element: <EventsPage />,
+        },
+        {
+          path: "events/:eventId",
+          element: <EventDetailPage />,
+        },
+        {
+          path: "events/new",
+          element: <NewEventPage />,
+        },
+        {
+          path: "events/:eventId/edit",
+          element: <EditEventPage />,
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={router} />;
 }
 
 export default App;
