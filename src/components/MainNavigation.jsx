@@ -1,3 +1,7 @@
 export default function MainNavigation() {
-  return <></>;
+  return (
+    <>
+      <p>whatev</p>
+    </>
+  );
 }
