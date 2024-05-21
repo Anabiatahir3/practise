@@ -9,7 +9,7 @@ import { fetchEvents } from "../../utils/http.jsx";
 export default function NewEventsSection() {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events"],
-    queryFn: fetchEvents,
+    queryFn: fetchEvents, //reactquery by default passes some data to your queryFn function
   });
 
   let content;
