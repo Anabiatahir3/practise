@@ -19,6 +19,7 @@ export default function NewEvent() {
 
   function handleSubmit(formData) {
     mutate({ event: formData }); //unlike useQuery the mutate function needs to be called when it is to be used.
+    navigate("../");
   }
 
   return (

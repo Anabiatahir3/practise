@@ -6,8 +6,12 @@ import { deleteEvent, fetchEvent } from "../../utils/http.jsx";
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 import { queryClient } from "../../utils/http.jsx";
+import { useState } from "react";
+import Modal from "../UI/Modal.jsx";
 
 export default function EventDetails() {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -18,14 +22,28 @@ export default function EventDetails() {
     },
   });
 
-  const { mutate } = useMutation({
+  const {
+    mutate,
+    isPending: isPendingDeletion,
+    error: deleteError,
+    isError: isDeleteError,
+  } = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+        refetchType: none,
+      });
       navigate("/events");
     },
   });
+  function handleStartDelete() {
+    setIsDeleting(true);
+  }
 
+  function handleStopDeleting() {
+    setIsDeleting(false);
+  }
   function handleDelete() {
     mutate({ id });
   }
@@ -52,7 +70,7 @@ export default function EventDetails() {
         <header>
           <h1>{data.title}</h1>
           <nav>
-            <button onClick={handleDelete}>Delete</button>
+            <button onClick={handleStartDelete}>Delete</button>
             <Link to="edit">Edit</Link>
           </nav>
         </header>
@@ -73,6 +91,23 @@ export default function EventDetails() {
   }
   return (
     <>
+      {isDeleting && (
+        <Modal onClose={handleStopDeleting}>
+          <h2>Are you sure you want to delete?</h2>
+
+          {isPendingDeletion && <p>Submitting please wait...</p>}
+          {!isPendingDeletion && (
+            <div className="form-actions">
+              <button onClick={handleDelete}>Delete</button>
+              <button onClick={handleStopDeleting}>Cancel</button>
+            </div>
+          )}
+          {isDeleteError && (
+            <ErrorBlock title="error" message={error.info?.message} />
+          )}
+        </Modal>
+      )}
+
       <Outlet />
       <Header>
         <Link to="/events" className="nav-item">
